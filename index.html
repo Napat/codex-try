@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ChatGPT Codex Static Site</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;600&family=Prompt:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5efe6;
+      --bg-alt: #efe2d0;
+      --text: #3b2f2f;
+      --muted: #6d5b4b;
+      --accent: #b68b5c;
+      --accent-dark: #8c6c42;
+      --chip: #ead7bd;
+      --card: rgba(255, 255, 255, 0.82);
+      --shadow: 0 18px 40px rgba(60, 44, 29, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Prompt', 'Kanit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(16px);
+      background: rgba(245, 239, 230, 0.88);
+      border-bottom: 1px solid rgba(140, 108, 66, 0.15);
+    }
+
+    .nav-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 0.04em;
+      color: var(--accent-dark);
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 0.95rem;
+      color: var(--muted);
+      transition: color 0.2s ease-out;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      color: var(--accent-dark);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    .hero {
+      position: relative;
+      padding: 3rem clamp(1.5rem, 4vw, 3.5rem);
+      border-radius: 28px;
+      background: radial-gradient(circle at top left, rgba(182, 139, 92, 0.15), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(140, 108, 66, 0.18), transparent 55%),
+                  linear-gradient(140deg, var(--bg-alt), #f9f1e4 45%, #f2e5d4 110%);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(140, 108, 66, 0.15);
+      pointer-events: none;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      margin: 0 0 1rem;
+      font-weight: 600;
+    }
+
+    .hero p {
+      max-width: 620px;
+      font-size: 1.05rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .chip-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .chip {
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--muted);
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+    }
+
+    section h2 {
+      font-size: 1.9rem;
+      margin-bottom: 1.25rem;
+      color: var(--accent-dark);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 1.75rem;
+      box-shadow: 0 10px 30px rgba(59, 47, 47, 0.08);
+      border: 1px solid rgba(140, 108, 66, 0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .card ul {
+      padding-left: 1.2rem;
+      margin: 0;
+    }
+
+    .card li {
+      margin-bottom: 0.5rem;
+    }
+
+    .flow-steps {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .step {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 1.5rem;
+      border: 1px solid rgba(140, 108, 66, 0.12);
+      position: relative;
+      box-shadow: 0 12px 24px rgba(59, 47, 47, 0.08);
+    }
+
+    .step-number {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent-dark);
+      background: rgba(182, 139, 92, 0.2);
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+    }
+
+    .step h3 {
+      margin: 0 0 0.6rem;
+      font-size: 1.1rem;
+    }
+
+    pre {
+      background: #2f241a;
+      color: #f4efe7;
+      padding: 1rem 1.25rem;
+      border-radius: 14px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    .resource-list {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .resource-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-radius: 16px;
+      background: rgba(234, 215, 189, 0.65);
+      border: 1px solid rgba(140, 108, 66, 0.18);
+    }
+
+    .resource-item strong {
+      font-weight: 600;
+    }
+
+    footer {
+      padding: 2rem 1.5rem 3rem;
+      text-align: center;
+      color: var(--muted);
+      background: linear-gradient(180deg, transparent, rgba(140, 108, 66, 0.08));
+    }
+
+    footer small {
+      display: block;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 720px) {
+      .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        gap: 0.85rem;
+      }
+
+      .hero {
+        padding: 2.4rem 1.6rem;
+      }
+
+      .chip-group {
+        gap: 0.5rem;
+      }
+
+      section h2 {
+        font-size: 1.65rem;
+      }
+
+      .resource-item {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        transition: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="brand">ChatGPT Codex</div>
+      <nav>
+        <a href="#features">ฟีเจอร์</a>
+        <a href="#setup">เริ่มใช้งาน</a>
+        <a href="#usage">วิธีใช้งาน</a>
+        <a href="#resources">แหล่งเรียนรู้</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>แนะนำ ChatGPT Codex</h1>
+      <p>
+        รุ่นผู้ช่วยด้านโค้ดที่เข้าใจภาษาไทยผสมศัพท์เทคนิคได้ลึกซึ้ง ช่วยอธิบายโค้ด สร้างโค้ด
+        รีวิวการเปลี่ยนแปลง และเชื่อม workflow กับ GitHub ได้ในชุดเดียว
+      </p>
+      <div class="chip-group">
+        <span class="chip">อัปเดตล่าสุด: 26 กันยายน 2025 · 04:56 UTC</span>
+        <span class="chip">รองรับหลายภาษาโปรแกรม</span>
+        <span class="chip">ใช้งานได้ทั้ง CLI & IDE</span>
+      </div>
+    </section>
+
+    <section id="features">
+      <h2>ไฮไลต์ฟีเจอร์สำคัญ</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>เข้าใจหลายภาษา</h3>
+          <ul>
+            <li>รองรับ Python, JavaScript, TypeScript, Go, Rust, C#, Java และอีกมากมาย</li>
+            <li>อ่านบริบทโค้ดในโปรเจ็กต์ได้ครบทั้งไฟล์และโฟลเดอร์</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>ชำนาญบริบทเชิงลึก</h3>
+          <ul>
+            <li>จำประวัติการสนทนาเพื่อให้คำตอบต่อเนื่อง</li>
+            <li>แนะนำการปรับปรุงโดยอ้างอิงไฟล์ที่กำลังทำงานอยู่</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>รีวิวโค้ดอัตโนมัติ</h3>
+          <ul>
+            <li>วิเคราะห์ diff และ Pull Request พร้อมชี้จุดเสี่ยง</li>
+            <li>เสนอ refactor หรือ test เพิ่มเติมในรูปแบบ bullet</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>สร้างเทสและเอกสาร</h3>
+          <ul>
+            <li>เขียน unit / integration test ครบถ้วน</li>
+            <li>ช่วยร่าง README หรือคู่มือประกอบโค้ดได้รวดเร็ว</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Workflow เชื่อมต่อ GitHub</h3>
+          <ul>
+            <li>สั่งเปิด branch, commit, push และ PR ผ่านภาษาไทย</li>
+            <li>ผสานเข้ากับ automation script หรือ GitHub Actions ได้</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="setup">
+      <h2>การเตรียมใช้งาน (Setup)</h2>
+      <div class="flow-steps">
+        <article class="step">
+          <span class="step-number">ขั้นตอน 1</span>
+          <h3>เตรียม API Access</h3>
+          <p>สมัครบัญชีและสร้าง API key ที่ <a href="https://platform.openai.com/" target="_blank" rel="noopener">platform.openai.com</a></p>
+          <pre><code>export OPENAI_API_KEY="sk-..."</code></pre>
+        </article>
+        <article class="step">
+          <span class="step-number">ขั้นตอน 2</span>
+          <h3>ติดตั้ง CLI Toolkit</h3>
+          <pre><code>pip install --upgrade openai
+openai --version
+openai api keys add default --key "$OPENAI_API_KEY"</code></pre>
+        </article>
+        <article class="step">
+          <span class="step-number">ขั้นตอน 3</span>
+          <h3>ตั้งค่า IDE Plugin</h3>
+          <p>ใน VS Code ให้ค้นหา "ChatGPT Codex" หรือปลั๊กอินที่เชื่อม OpenAI API แล้วใส่ API key</p>
+        </article>
+        <article class="step">
+          <span class="step-number">ขั้นตอน 4</span>
+          <h3>เชื่อมต่อ GitHub</h3>
+          <p>สร้าง Personal Access Token ที่ GitHub และตั้งค่าตัวแปรสภาพแวดล้อม</p>
+          <pre><code>export GITHUB_TOKEN="ghp_..."</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section id="usage">
+      <h2>ตัวอย่างการใช้งาน</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>ใช้งานผ่าน CLI</h3>
+          <pre><code>openai chat.completions.create \
+  --model gpt-4.1-codex \
+  --messages '[{"role":"system","content":"คุณคือผู้ช่วยโปรแกรมเมอร์"},
+               {"role":"user","content":"ช่วยเขียนฟังก์ชัน merge sort ภาษา Python"}]' \
+  --temperature 0.3</code></pre>
+        </article>
+        <article class="card">
+          <h3>ใช้งานผ่าน IDE</h3>
+          <ul>
+            <li>เปิดไฟล์ใน VS Code แล้วเลือกข้อความที่ต้องการ</li>
+            <li>คลิกขวา &gt; Ask ChatGPT Codex เพื่อขอคำอธิบายหรือเพิ่มเติมโค้ด</li>
+            <li>รับคำตอบและแทรกผลลัพธ์กลับสู่ editor ได้ทันที</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>รีวิวโค้ด (Code Review)</h3>
+          <ul>
+            <li>ต่อ API กับ workflow CI/CD เช่น GitHub Actions</li>
+            <li>แนบ diff พร้อมคำสั่งรีวิว โมเดลจะให้ข้อเสนอแนะพร้อมใช้งาน</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>สั่งสร้างโค้ดผ่านเว็บ</h3>
+          <ol>
+            <li>ติดตั้ง web UI ที่รองรับ OpenAI API</li>
+            <li>ล็อกอิน GitHub OAuth เพื่อเข้าถึง repository</li>
+            <li>ป้อนคำสั่ง เช่น "สร้าง service จัดการตะกร้าสินค้าในโฟลเดอร์ src/cart"</li>
+            <li>ระบบจะสร้างโค้ด เปิด Draft PR และพร้อมให้ตรวจสอบ</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section id="resources">
+      <h2>แนวทางการเรียนรู้เพิ่มเติม</h2>
+      <div class="resource-list">
+        <div class="resource-item">
+          <strong>OpenAI Cookbook</strong>
+          <span>ชุดตัวอย่างโค้ดสำหรับการใช้งาน API พร้อมคำอธิบายที่เข้าใจง่าย</span>
+        </div>
+        <div class="resource-item">
+          <strong>OpenAI Responses API Docs</strong>
+          <span>คู่มือเต็มสำหรับ endpoint ล่าสุดในการเรียกใช้งานโมเดล</span>
+        </div>
+        <div class="resource-item">
+          <strong>GitHub Actions Docs</strong>
+          <span>เรียนรู้การสร้าง workflow อัตโนมัติให้ Codex ช่วยรีวิวและ deploy</span>
+        </div>
+        <div class="resource-item">
+          <strong>VS Code Marketplace</strong>
+          <span>อัปเดตปลั๊กอิน AI เพื่อเชื่อม ChatGPT Codex กับ IDE ที่ใช้ประจำ</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    จัดทำด้วยธีม Earth Tone เพื่อประสบการณ์อ่านที่อบอุ่นและสบายตา
+    <small>© 2025 ChatGPT Codex Companion</small>
+  </footer>
+</body>
+</html>
