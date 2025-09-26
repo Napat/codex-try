@@ -1,8 +1,3 @@
----
-layout: default
-title: "แนะนำ ChatGPT Codex"
----
-
 # แนะนำ ChatGPT Codex
 
 **อัปเดตล่าสุด:** 26 กันยายน 2025 เวลา 04:56 น. (UTC)
